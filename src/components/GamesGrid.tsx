@@ -8,10 +8,19 @@ import { Genre } from "@/hooks/useGenres"
 interface Props {
   selectedPlatform: Platform | null
   selectedGenre: Genre | null
+  order?: string
 }
 
-export default function GamesGrid({ selectedGenre, selectedPlatform }: Props) {
-  const { games, error, isLoading } = useGames(selectedGenre, selectedPlatform)
+export default function GamesGrid({
+  selectedGenre,
+  selectedPlatform,
+  order,
+}: Props) {
+  const { games, error, isLoading } = useGames(
+    selectedGenre,
+    selectedPlatform,
+    order
+  )
   const skeletons = [1, 2, 3, 4, 5, 6]
 
   return (

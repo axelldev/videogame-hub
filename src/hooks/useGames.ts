@@ -11,7 +11,7 @@ export interface Game {
   id: number
   name: string
   background_image: string
-  parent_platforms: { platform: Platform }[]
+  parent_platforms?: { platform: Platform }[]
   metacritic: number
 }
 
@@ -22,7 +22,8 @@ export interface FetchGamesResponse {
 
 export function useGames(
   selectedGenre?: Genre | null,
-  selectedPlatform?: Platform | null
+  selectedPlatform?: Platform | null,
+  order?: string
 ) {
   const { isLoading, data, error } = useData<FetchGamesResponse>(
     "games",
@@ -30,9 +31,10 @@ export function useGames(
       params: {
         genres: selectedGenre?.id,
         platforms: selectedPlatform?.id,
+        ordering: order,
       },
     },
-    [selectedGenre?.id, selectedPlatform?.id]
+    [selectedGenre?.id, selectedPlatform?.id, order]
   )
   return {
     games: data?.results,
