@@ -20,15 +20,19 @@ export interface FetchGamesResponse {
   results: Game[]
 }
 
-export function useGames(selectedGenre?: Genre | null) {
+export function useGames(
+  selectedGenre?: Genre | null,
+  selectedPlatform?: Platform | null
+) {
   const { isLoading, data, error } = useData<FetchGamesResponse>(
     "games",
     {
       params: {
         genres: selectedGenre?.id,
+        platforms: selectedPlatform?.id,
       },
     },
-    [selectedGenre?.id]
+    [selectedGenre?.id, selectedPlatform?.id]
   )
   return {
     games: data?.results,

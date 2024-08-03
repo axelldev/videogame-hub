@@ -1,3 +1,4 @@
+import { Platform } from "@/hooks/useGames"
 import { usePlatforms } from "@/hooks/usePlatforms"
 import {
   Button,
@@ -6,13 +7,20 @@ import {
   MenuItem,
   MenuList,
   Skeleton,
-  Spinner,
 } from "@chakra-ui/react"
 import { BsChevronDown } from "react-icons/bs"
 
 const skeletons = Array.from({ length: 5 }, (_, i) => i + 1)
 
-export default function PlatformSelector() {
+interface Props {
+  selectedPlatform: Platform | null
+  onSelectPlatform: (platform: Platform | null) => void
+}
+
+export default function PlatformSelector({
+  selectedPlatform,
+  onSelectPlatform,
+}: Props) {
   const { platforms, isLoading, error } = usePlatforms()
 
   if (error) return
@@ -20,11 +28,17 @@ export default function PlatformSelector() {
   return (
     <Menu>
       <MenuButton as={Button} rightIcon={<BsChevronDown />}>
-        Platform
+        {selectedPlatform?.name ?? "Platforms"}
       </MenuButton>
       <MenuList>
+        <MenuItem onClick={() => onSelectPlatform(null)}>All</MenuItem>
         {platforms?.map((platform) => (
-          <MenuItem key={platform.id}>{platform.name}</MenuItem>
+          <MenuItem
+            key={platform.id}
+            onClick={() => onSelectPlatform(platform)}
+          >
+            {platform.name}
+          </MenuItem>
         ))}
 
         {isLoading &&
