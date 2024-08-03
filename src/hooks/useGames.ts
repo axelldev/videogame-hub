@@ -33,12 +33,15 @@ export function useGames() {
       .get<FetchGamesResponse>("games", {
         signal: controller.signal,
       })
-      .then((resp) => setGames(resp.data.results))
+      .then((resp) => {
+        setGames(resp.data.results)
+        setLoading(false)
+      })
       .catch((err) => {
         if (err instanceof CanceledError) return
         setError(err.message)
+        setLoading(false)
       })
-      .finally(() => setLoading(false))
 
     return () => controller.abort()
   }, [])
