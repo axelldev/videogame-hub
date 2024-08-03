@@ -22,10 +22,12 @@ export interface FetchGamesResponse {
 }
 
 export function useGames() {
+  const [loading, setLoading] = useState(false)
   const [games, setGames] = useState<Game[]>([])
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
+    setLoading(true)
     const controller = new AbortController()
     apiClient
       .get<FetchGamesResponse>("games", {
@@ -36,6 +38,7 @@ export function useGames() {
         if (err instanceof CanceledError) return
         setError(err.message)
       })
+      .finally(() => setLoading(false))
 
     return () => controller.abort()
   }, [])
@@ -43,5 +46,6 @@ export function useGames() {
   return {
     games,
     error,
+    loading,
   }
 }
