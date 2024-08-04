@@ -23,7 +23,8 @@ export interface FetchGamesResponse {
 export function useGames(
   selectedGenre?: Genre | null,
   selectedPlatform?: Platform | null,
-  order?: string
+  order?: string,
+  search?: string
 ) {
   const { isLoading, data, error } = useData<FetchGamesResponse>(
     "games",
@@ -32,9 +33,10 @@ export function useGames(
         genres: selectedGenre?.id,
         platforms: selectedPlatform?.id,
         ordering: order,
+        search,
       },
     },
-    [selectedGenre?.id, selectedPlatform?.id, order]
+    [selectedGenre?.id, selectedPlatform?.id, order, search]
   )
   return {
     games: data?.results,

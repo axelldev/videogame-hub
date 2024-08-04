@@ -9,17 +9,20 @@ interface Props {
   selectedPlatform: Platform | null
   selectedGenre: Genre | null
   order?: string
+  search: string
 }
 
 export default function GamesGrid({
   selectedGenre,
   selectedPlatform,
   order,
+  search,
 }: Props) {
   const { games, error, isLoading } = useGames(
     selectedGenre,
     selectedPlatform,
-    order
+    order,
+    search
   )
   const skeletons = [1, 2, 3, 4, 5, 6]
 
