@@ -1,8 +1,20 @@
-import axios from "axios"
+import { FetchResponse } from "@/types/http"
+import axios, { AxiosRequestConfig } from "axios"
 
-export default axios.create({
+const axiosIntance = axios.create({
   baseURL: "https://api.rawg.io/api",
   params: {
     key: import.meta.env.VITE_API_KEY,
   },
 })
+
+export class ApiService<T> {
+  endopint: string
+
+  constructor(endpoint: string) {
+    this.endopint = endpoint
+  }
+
+  getAll = (config?: AxiosRequestConfig) =>
+    axiosIntance.get<FetchResponse<T>>(this.endopint, config)
+}

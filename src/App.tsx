@@ -3,18 +3,10 @@ import NavBar from "./components/NavBar"
 import GamesGrid from "./components/GamesGrid"
 import GenreList from "./components/GenreList"
 import { useState } from "react"
-import { Genre } from "./hooks/useGenres"
 import PlatformSelector from "./components/PlatformSelector"
-import { Platform } from "./hooks/useGames"
 import SortSelector from "./components/SortSelector"
 import GameHeading from "./components/GameHeading"
-
-export interface GameQuery {
-  genre: Genre | null
-  platform: Platform | null
-  sortOrder: string
-  search: string
-}
+import { GameQuery } from "./hooks/useGames"
 
 export default function App() {
   const [gameQuery, setGameQuery] = useState<GameQuery>({
@@ -68,12 +60,7 @@ export default function App() {
             }}
           />
         </HStack>
-        <GamesGrid
-          selectedPlatform={gameQuery.platform}
-          selectedGenre={gameQuery.genre}
-          order={gameQuery.sortOrder}
-          search={gameQuery.search}
-        />
+        <GamesGrid gamesQuery={gameQuery} />
       </GridItem>
     </Grid>
   )

@@ -1,47 +1,30 @@
-import { useData } from "./useData"
-import { Genre } from "./useGenres"
+import { GAMES_QUERY_KEY } from "@/constants"
+import { Genre } from "@/services/genresService"
+import { useQuery } from "@tanstack/react-query"
+import { Platform } from "./usePlatform"
+import { gamesService } from "@/services/gamesService"
 
-export interface Platform {
-  id: number
-  name: string
-  slug: string
+export interface GameQuery {
+  genre: Genre | null
+  platform: Platform | null
+  sortOrder: string
+  search: string
 }
 
-export interface Game {
-  id: number
-  name: string
-  background_image?: string
-  parent_platforms?: { platform: Platform }[]
-  metacritic: number
-  rating_top: number
-}
-
-export interface FetchGamesResponse {
-  count: number
-  results: Game[]
-}
-
-export function useGames(
-  selectedGenre?: Genre | null,
-  selectedPlatform?: Platform | null,
-  order?: string,
-  search?: string
-) {
-  const { isLoading, data, error } = useData<FetchGamesResponse>(
-    "games",
-    {
-      params: {
-        genres: selectedGenre?.id,
-        platforms: selectedPlatform?.id,
-        ordering: order,
-        search,
-      },
-    },
-    [selectedGenre?.id, selectedPlatform?.id, order, search]
-  )
-  return {
-    games: data?.results,
-    error,
-    isLoading,
-  }
+export function useGames(query: GameQuery) {
+  return useQuery({
+    queryKey: [GAMES_QUERY_KEY, query],
+    queryFn: async ({ signal }) =>
+      gamesService
+        .getAll({
+          signal,
+          params: {
+            genres: query.genre?.id,
+            platforms: query.platform?.id,
+            ordering: query.sortOrder,
+            search: query.search,
+          },
+        })
+        .then((response) => response.data),
+  })
 }

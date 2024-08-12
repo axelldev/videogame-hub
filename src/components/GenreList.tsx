@@ -1,4 +1,4 @@
-import { Genre, useGenres } from "@/hooks/useGenres"
+import { useGenres } from "@/hooks/useGenres"
 import {
   Button,
   Heading,
@@ -8,6 +8,7 @@ import {
   ListItem,
 } from "@chakra-ui/react"
 import GenreItemSkeleton from "./GenreItemSkeleton"
+import { Genre } from "@/services/genresService"
 
 const skeletons = Array.from({ length: 10 }, (_, i) => i + 1)
 

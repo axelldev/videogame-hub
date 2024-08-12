@@ -1,9 +1,9 @@
-import { Game } from "@/hooks/useGames"
 import { Card, CardBody, Heading, HStack, Image } from "@chakra-ui/react"
 import PlatformIconList from "./PlatformIconList"
 import CriticScore from "./CriticScore"
 import placeHolderImage from "@/assets/image-placeholder.webp"
 import Emoji from "./Emoji"
+import { Game } from "@/services/gamesService"
 
 interface Props {
   game: Game
