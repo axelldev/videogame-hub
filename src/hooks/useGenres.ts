@@ -1,20 +1,18 @@
-import { useData } from "./useData"
-
-export interface Genre {
-  id: number
-  name: string
-  image_background: string
-}
-
-interface FetchGenresResponse {
-  results: Genre[]
-}
+import { GENRES_QUERY_KEY } from "@/constants"
+import { Genre, genreService } from "@/services/genresService"
+import { useQuery } from "@tanstack/react-query"
 
 export const useGenres = () => {
-  const { isLoading, data, error } = useData<FetchGenresResponse>("genres")
+  const { data, isLoading, error } = useQuery<Genre[]>({
+    queryKey: [GENRES_QUERY_KEY],
+    queryFn: () =>
+      genreService.getAll().then((response) => response.data.results),
+    staleTime: 60 * 60,
+  })
+
   return {
     isLoading,
     error,
-    genres: data?.results,
+    genres: data ?? [],
   }
 }

@@ -1,22 +1,17 @@
-import { useData } from "./useData"
-
-export interface Platform {
-  id: number
-  name: string
-  slug: string
-}
-
-interface FetchPlatformsResponse {
-  results: Platform[]
-}
+import { useQuery } from "@tanstack/react-query"
+import { PLATFORMS_QUERY_KEY, STALE_1_DAY } from "@/constants"
+import { platformsService } from "./usePlatform"
 
 export function usePlatforms() {
-  const { data, isLoading, error } = useData<FetchPlatformsResponse>(
-    "/platforms/lists/parents"
-  )
+  const { data, isLoading, error } = useQuery({
+    queryKey: [PLATFORMS_QUERY_KEY],
+    queryFn: () =>
+      platformsService.getAll().then((response) => response.data.results),
+    staleTime: STALE_1_DAY, // 24h
+  })
 
   return {
-    platforms: data?.results,
+    platforms: data,
     isLoading,
     error,
   }
