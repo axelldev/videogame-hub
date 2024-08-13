@@ -1,6 +1,6 @@
 import { GAMES_QUERY_KEY } from "@/constants"
 import { Genre } from "@/services/genresService"
-import { useQuery } from "@tanstack/react-query"
+import { useInfiniteQuery } from "@tanstack/react-query"
 import { Platform } from "./usePlatform"
 import { gamesService } from "@/services/gamesService"
 
@@ -12,9 +12,10 @@ export interface GameQuery {
 }
 
 export function useGames(query: GameQuery) {
-  return useQuery({
+  return useInfiniteQuery({
     queryKey: [GAMES_QUERY_KEY, query],
-    queryFn: async ({ signal }) =>
+    initialPageParam: 1,
+    queryFn: async ({ signal, pageParam }) =>
       gamesService
         .getAll({
           signal,
@@ -23,8 +24,12 @@ export function useGames(query: GameQuery) {
             platforms: query.platform?.id,
             ordering: query.sortOrder,
             search: query.search,
+            page: pageParam,
           },
         })
         .then((response) => response.data),
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.next ? allPages.length + 1 : undefined
+    },
   })
 }
