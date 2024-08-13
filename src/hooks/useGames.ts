@@ -1,14 +1,12 @@
 import { GAMES_QUERY_KEY } from "@/constants"
-import { Genre } from "@/services/genresService"
 import { useInfiniteQuery } from "@tanstack/react-query"
-import { Platform } from "./usePlatform"
 import { gamesService } from "@/services/gamesService"
 
 export interface GameQuery {
-  genre: Genre | null
-  platform: Platform | null
-  sortOrder: string
-  search: string
+  genreId?: number
+  patformId?: number
+  sortOrder?: string
+  search?: string
 }
 
 export function useGames(query: GameQuery) {
@@ -20,8 +18,8 @@ export function useGames(query: GameQuery) {
         .getAll({
           signal,
           params: {
-            genres: query.genre?.id,
-            platforms: query.platform?.id,
+            genres: query.genreId,
+            platforms: query.patformId,
             ordering: query.sortOrder,
             search: query.search,
             page: pageParam,

@@ -9,12 +9,7 @@ import GameHeading from "./components/GameHeading"
 import { GameQuery } from "./hooks/useGames"
 
 export default function App() {
-  const [gameQuery, setGameQuery] = useState<GameQuery>({
-    genre: null,
-    platform: null,
-    sortOrder: "",
-    search: "",
-  })
+  const [gameQuery, setGameQuery] = useState<GameQuery>({})
 
   return (
     <Grid
@@ -37,9 +32,9 @@ export default function App() {
       <Show above="lg">
         <GridItem area="aside" paddingX={5}>
           <GenreList
-            selectedGenre={gameQuery.genre}
+            selectedGenreId={gameQuery.genreId}
             onSelectGenre={(genre) =>
-              setGameQuery((prev) => ({ ...prev, genre }))
+              setGameQuery((prev) => ({ ...prev, genreId: genre.id }))
             }
           />
         </GridItem>
@@ -48,9 +43,9 @@ export default function App() {
         <GameHeading gameQuery={gameQuery} />
         <HStack spacing={5} mb={5}>
           <PlatformSelector
-            selectedPlatform={gameQuery.platform}
+            selectedPlatformId={gameQuery.patformId}
             onSelectPlatform={(platform) => {
-              setGameQuery((prev) => ({ ...prev, platform }))
+              setGameQuery((prev) => ({ ...prev, patformId: platform?.id }))
             }}
           />
           <SortSelector

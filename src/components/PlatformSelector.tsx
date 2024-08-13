@@ -13,22 +13,25 @@ import { BsChevronDown } from "react-icons/bs"
 const skeletons = Array.from({ length: 5 }, (_, i) => i + 1)
 
 interface Props {
-  selectedPlatform: Platform | null
+  selectedPlatformId?: number
   onSelectPlatform: (platform: Platform | null) => void
 }
 
 export default function PlatformSelector({
-  selectedPlatform,
+  selectedPlatformId,
   onSelectPlatform,
 }: Props) {
   const { platforms, isLoading, error } = usePlatforms()
+  const platform = platforms?.find(
+    (platform) => platform.id === selectedPlatformId
+  )
 
   if (error) return
 
   return (
     <Menu>
       <MenuButton as={Button} rightIcon={<BsChevronDown />}>
-        {selectedPlatform?.name ?? "Platforms"}
+        {platform?.name ?? "Platforms"}
       </MenuButton>
       <MenuList>
         <MenuItem onClick={() => onSelectPlatform(null)}>All</MenuItem>

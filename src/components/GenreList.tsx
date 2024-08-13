@@ -13,11 +13,11 @@ import { Genre } from "@/services/genresService"
 const skeletons = Array.from({ length: 10 }, (_, i) => i + 1)
 
 interface Props {
-  selectedGenre: Genre | null
+  selectedGenreId?: number
   onSelectGenre: (genre: Genre) => void
 }
 
-export default function GenreList({ selectedGenre, onSelectGenre }: Props) {
+export default function GenreList({ selectedGenreId, onSelectGenre }: Props) {
   const { isLoading, genres, error } = useGenres()
 
   if (error) {
@@ -43,7 +43,7 @@ export default function GenreList({ selectedGenre, onSelectGenre }: Props) {
               />
               <Button
                 fontSize="large"
-                fontWeight={selectedGenre?.id === genre.id ? "bold" : "normal"}
+                fontWeight={selectedGenreId === genre.id ? "bold" : "normal"}
                 variant="link"
                 onClick={() => onSelectGenre(genre)}
                 whiteSpace="normal"
