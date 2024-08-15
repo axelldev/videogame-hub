@@ -43,9 +43,9 @@ export default function App() {
         <GameHeading gameQuery={gameQuery} />
         <HStack spacing={5} mb={5}>
           <PlatformSelector
-            selectedPlatformId={gameQuery.patformId}
+            selectedPlatformId={gameQuery.platformId}
             onSelectPlatform={(platform) => {
-              setGameQuery((prev) => ({ ...prev, patformId: platform?.id }))
+              setGameQuery((prev) => ({ ...prev, platformId: platform?.id }))
             }}
           />
           <SortSelector

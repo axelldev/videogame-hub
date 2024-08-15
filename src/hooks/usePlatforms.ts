@@ -1,13 +1,14 @@
 import { useQuery } from "@tanstack/react-query"
-import { PLATFORMS_QUERY_KEY, STALE_1_DAY } from "@/constants"
+import { PLATFORMS_QUERY_KEY } from "@/constants"
 import { platformsService } from "./usePlatform"
+import ms from "ms"
 
 export function usePlatforms() {
   const { data, isLoading, error } = useQuery({
     queryKey: [PLATFORMS_QUERY_KEY],
     queryFn: () =>
       platformsService.getAll().then((response) => response.data.results),
-    staleTime: STALE_1_DAY, // 24h
+    staleTime: ms("24h"), // 24h
   })
 
   return {

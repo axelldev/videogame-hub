@@ -1,5 +1,6 @@
 import { Platform } from "@/hooks/usePlatform"
 import { usePlatforms } from "@/hooks/usePlatforms"
+import { useSelectedPlatform } from "@/hooks/useSelectedPlatform"
 import {
   Button,
   Menu,
@@ -22,9 +23,7 @@ export default function PlatformSelector({
   onSelectPlatform,
 }: Props) {
   const { platforms, isLoading, error } = usePlatforms()
-  const platform = platforms?.find(
-    (platform) => platform.id === selectedPlatformId
-  )
+  const platform = useSelectedPlatform(selectedPlatformId)
 
   if (error) return
 
