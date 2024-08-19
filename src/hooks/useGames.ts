@@ -1,16 +1,12 @@
 import { GAMES_QUERY_KEY } from "@/constants"
-import { useInfiniteQuery } from "@tanstack/react-query"
 import { gamesService } from "@/services/gamesService"
+import { useGameQueryStore } from "@/store/useGameQueryStore"
+import { useInfiniteQuery } from "@tanstack/react-query"
 import ms from "ms"
 
-export interface GameQuery {
-  genreId?: number
-  platformId?: number
-  sortOrder?: string
-  search?: string
-}
+export function useGames() {
+  const query = useGameQueryStore((s) => s.gameQuery)
 
-export function useGames(query: GameQuery) {
   return useInfiniteQuery({
     queryKey: [GAMES_QUERY_KEY, query],
     initialPageParam: 1,

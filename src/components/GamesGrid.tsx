@@ -1,5 +1,4 @@
 import { useGames } from "@/hooks/useGames"
-import { useGameQueryStore } from "@/store/useGameQueryStore"
 import { Box, SimpleGrid, Spinner, Text } from "@chakra-ui/react"
 import InfiniteScroll from "react-infinite-scroll-component"
 import GameCard from "./GameCard"
@@ -7,9 +6,7 @@ import GameCardContainer from "./GameCardContainer"
 import GameCardSkeleton from "./GameCardSkeleton"
 
 export default function GamesGrid() {
-  const gameQuery = useGameQueryStore((s) => s.gameQuery)
-  const { data, error, isLoading, fetchNextPage, hasNextPage } =
-    useGames(gameQuery)
+  const { data, error, isLoading, fetchNextPage, hasNextPage } = useGames()
   const skeletons = [1, 2, 3, 4, 5, 6]
 
   const count =
