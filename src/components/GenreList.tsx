@@ -1,4 +1,5 @@
 import { useGenres } from "@/hooks/useGenres"
+import { useGameQueryStore } from "@/store/useGameQueryStore"
 import {
   Button,
   Heading,
@@ -8,17 +9,13 @@ import {
   ListItem,
 } from "@chakra-ui/react"
 import GenreItemSkeleton from "./GenreItemSkeleton"
-import { Genre } from "@/services/genresService"
 
 const skeletons = Array.from({ length: 10 }, (_, i) => i + 1)
 
-interface Props {
-  selectedGenreId?: number
-  onSelectGenre: (genre: Genre) => void
-}
-
-export default function GenreList({ selectedGenreId, onSelectGenre }: Props) {
+export default function GenreList() {
   const { isLoading, genres, error } = useGenres()
+  const selectedGenreId = useGameQueryStore((store) => store.gameQuery.genreId)
+  const setSelectedGenreId = useGameQueryStore((store) => store.setGenreId)
 
   if (error) {
     return
@@ -45,7 +42,7 @@ export default function GenreList({ selectedGenreId, onSelectGenre }: Props) {
                 fontSize="large"
                 fontWeight={selectedGenreId === genre.id ? "bold" : "normal"}
                 variant="link"
-                onClick={() => onSelectGenre(genre)}
+                onClick={() => setSelectedGenreId(genre.id)}
                 whiteSpace="normal"
                 textAlign="left"
               >

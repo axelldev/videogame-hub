@@ -1,6 +1,6 @@
-import { Platform } from "@/hooks/usePlatform"
 import { usePlatforms } from "@/hooks/usePlatforms"
 import { useSelectedPlatform } from "@/hooks/useSelectedPlatform"
+import { useGameQueryStore } from "@/store/useGameQueryStore"
 import {
   Button,
   Menu,
@@ -13,15 +13,13 @@ import { BsChevronDown } from "react-icons/bs"
 
 const skeletons = Array.from({ length: 5 }, (_, i) => i + 1)
 
-interface Props {
-  selectedPlatformId?: number
-  onSelectPlatform: (platform: Platform | null) => void
-}
-
-export default function PlatformSelector({
-  selectedPlatformId,
-  onSelectPlatform,
-}: Props) {
+export default function PlatformSelector() {
+  const selectedPlatformId = useGameQueryStore(
+    (store) => store.gameQuery.platformId
+  )
+  const setSelectedPlatformId = useGameQueryStore(
+    (store) => store.setPlatformId
+  )
   const { platforms, isLoading, error } = usePlatforms()
   const platform = useSelectedPlatform(selectedPlatformId)
 
@@ -33,11 +31,11 @@ export default function PlatformSelector({
         {platform?.name ?? "Platforms"}
       </MenuButton>
       <MenuList>
-        <MenuItem onClick={() => onSelectPlatform(null)}>All</MenuItem>
+        <MenuItem onClick={() => setSelectedPlatformId(null)}>All</MenuItem>
         {platforms?.map((platform) => (
           <MenuItem
             key={platform.id}
-            onClick={() => onSelectPlatform(platform)}
+            onClick={() => setSelectedPlatformId(platform.id)}
           >
             {platform.name}
           </MenuItem>
