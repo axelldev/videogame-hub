@@ -17,4 +17,9 @@ export class ApiService<T> {
 
   getAll = (config?: AxiosRequestConfig) =>
     axiosIntance.get<FetchResponse<T>>(this.endopint, config)
+
+  get = async (id: string | number, config?: AxiosRequestConfig) => {
+    const response = await axiosIntance.get<T>(this.endopint + "/" + id, config)
+    return response.data
+  }
 }

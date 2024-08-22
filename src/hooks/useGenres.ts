@@ -1,5 +1,6 @@
 import { GENRES_QUERY_KEY } from "@/constants"
-import { Genre, genreService } from "@/services/genresService"
+import { genreService } from "@/services/genresService"
+import { Genre } from "@/entities/Genre"
 import { useQuery } from "@tanstack/react-query"
 import ms from "ms"
 

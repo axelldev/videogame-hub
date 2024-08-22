@@ -3,7 +3,8 @@ import PlatformIconList from "./PlatformIconList"
 import CriticScore from "./CriticScore"
 import placeHolderImage from "@/assets/image-placeholder.webp"
 import Emoji from "./Emoji"
-import { Game } from "@/services/gamesService"
+import { Game } from "@/entities/Game"
+import { Link } from "react-router-dom"
 
 interface Props {
   game: Game
@@ -22,7 +23,9 @@ export default function GameCard({ game }: Props) {
           />
           <CriticScore score={game.metacritic} />
         </HStack>
-        <Heading fontSize="2xl">{game.name}</Heading>
+        <Heading fontSize="2xl">
+          <Link to={`/games/${game.slug}`}>{game.name}</Link>
+        </Heading>
         <Emoji rating={game.rating_top} />
       </CardBody>
     </Card>

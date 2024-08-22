@@ -29,6 +29,7 @@ export default function GamesGrid() {
             xl: 4,
           }}
           spacing={6}
+          pt={5}
         >
           {isLoading &&
             skeletons.map((index) => (
